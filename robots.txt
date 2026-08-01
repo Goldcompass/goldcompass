@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://goldcompass.github.io/goldcompass/sitemap.xml
