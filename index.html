@@ -306,26 +306,6 @@
     display:grid; grid-template-columns:0.9fr 1.1fr; gap:64px; align-items:center;
     border-top:1px solid var(--line); border-bottom:1px solid var(--line);
   }
-  .trust-figure{
-    aspect-ratio:4/5; border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(160deg, var(--ink-soft), var(--ink));
-    position:relative;
-  }
-  .trust-figure .mark{
-    width:64px; height:64px; border:1px solid var(--brass); border-radius:50%; position:relative;
-  }
-  .trust-figure .mark::before{
-    content:""; position:absolute; top:50%; left:50%; width:1.5px; height:34px;
-    background:var(--brass); transform:translate(-50%,-50%) rotate(38deg);
-  }
-  .trust-figure .figure-stat b{
-    display:block; font-family:'JetBrains Mono', monospace; font-size:52px; color:var(--brass-bright);
-    line-height:1;
-  }
-  .trust-figure .figure-stat span{
-    font-size:12.5px; color:var(--platinum); letter-spacing:0.02em;
-  }
   .trust h2{font-family:'Noto Serif JP', serif; font-size:26px; font-weight:600; margin-bottom:20px; line-height:1.6;}
   .trust p{color:var(--platinum); font-size:14px; line-height:2; margin-bottom:16px;}
   .trust .stats{display:flex; gap:40px; margin-top:28px;}
@@ -510,9 +490,9 @@
     <div class="section-head">
       <div>
         <span class="num">01.5 — 貴金属コラム</span>
-        <h2>他では読めない、業界の視点</h2>
+        <h2>貴金属にまつわる、少し専門的な話</h2>
       </div>
-      <p>金・プラチナ・パラジウム・銀にまつわる、少し専門的なテーマを取り上げます。</p>
+      <p>品質規格、価格の決まり方、税務など、実務に関わるテーマを取り上げます。</p>
     </div>
     <div class="cards" style="grid-template-columns:repeat(2,1fr);">
       <div class="card" style="background:var(--ink-soft);">
@@ -581,10 +561,7 @@
   </div>
 </section>
 
-<section id="trust" class="trust wrap">
-  <div class="trust-figure">
-    <div class="mark"></div>
-  </div>
+<section id="trust" class="trust wrap" style="grid-template-columns:1fr; max-width:640px;">
   <div>
     <h2>現場を知る人間が書く、<br>数字に嘘のない情報を。</h2>
     <p>
@@ -593,11 +570,6 @@
     <p>
       「なんとなく良さそう」ではなく、「なぜそうなるのか」を実務目線で説明することを大切にしています。価格や手数料の話は、公式サイトや制度の一次情報を確認した上で書くようにしています。
     </p>
-    <div class="stats">
-      <div class="stat"><b>7+</b><span>年の業界経験</span></div>
-      <div class="stat"><b>3社</b><span>での実務経験</span></div>
-      <div class="stat"><b>15社+</b><span>との取引実績</span></div>
-    </div>
   </div>
 </section>
 
@@ -624,6 +596,7 @@
           <a href="#trust">運営者について</a>
           <a href="disclaimer.html">免責事項</a>
           <a href="privacy.html">プライバシーポリシー</a>
+          <a href="tokushoho.html">特商法表記</a>
         </div>
       </div>
     </div>
