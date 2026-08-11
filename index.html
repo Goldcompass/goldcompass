@@ -251,6 +251,10 @@
     letter-spacing:0.01em; display:block;
   }
   .spot-card .price small{font-size:12px; color:var(--platinum); font-weight:400; margin-left:4px;}
+  .spot-card .tax-note{
+    font-family:'JetBrains Mono', monospace; font-size:11px; color:rgba(183,188,195,0.6);
+    display:block; margin-top:4px;
+  }
   .spot-card .change{
     font-family:'JetBrains Mono', monospace; font-size:12.5px; margin-top:10px; display:block;
   }
@@ -372,12 +376,12 @@
     <span><b>GOLD</b>1g 14,820円 <span class="up">▲0.6%</span></span>
     <span><b>PLATINUM</b>1g 5,940円 <span class="down">▼0.2%</span></span>
     <span><b>PALLADIUM</b>1g 4,610円 <span class="down">▼0.8%</span></span>
-    <span><b>SILVER</b>1g 178円 <span class="up">▲1.1%</span></span>
+    <span><b>SILVER</b>1kg 178,000円 <span class="up">▲1.1%</span></span>
     <span><b>USD/JPY</b>148.32 <span class="up">▲0.3%</span></span>
     <span><b>GOLD</b>1g 14,820円 <span class="up">▲0.6%</span></span>
     <span><b>PLATINUM</b>1g 5,940円 <span class="down">▼0.2%</span></span>
     <span><b>PALLADIUM</b>1g 4,610円 <span class="down">▼0.8%</span></span>
-    <span><b>SILVER</b>1g 178円 <span class="up">▲1.1%</span></span>
+    <span><b>SILVER</b>1kg 178,000円 <span class="up">▲1.1%</span></span>
     <span><b>USD/JPY</b>148.32 <span class="up">▲0.3%</span></span>
   </div>
 </div>
@@ -422,33 +426,37 @@
       <div class="spot-card">
         <span class="metal-name">GOLD</span>
         <span class="metal-jp">金</span>
-        <span class="price">14,820<small>円/g</small></span>
+        <span class="price">14,820<small>円/g(税込)</small></span>
+        <span class="tax-note">税抜 13,473円</span>
         <span class="change up">▲ 88円(0.60%)</span>
         <div class="bar"><span style="width:72%;"></span></div>
       </div>
       <div class="spot-card">
         <span class="metal-name">PLATINUM</span>
         <span class="metal-jp">プラチナ</span>
-        <span class="price">5,940<small>円/g</small></span>
+        <span class="price">5,940<small>円/g(税込)</small></span>
+        <span class="tax-note">税抜 5,400円</span>
         <span class="change down">▼ 12円(0.20%)</span>
         <div class="bar"><span style="width:41%;"></span></div>
       </div>
       <div class="spot-card">
         <span class="metal-name">PALLADIUM</span>
         <span class="metal-jp">パラジウム</span>
-        <span class="price">4,610<small>円/g</small></span>
+        <span class="price">4,610<small>円/g(税込)</small></span>
+        <span class="tax-note">税抜 4,191円</span>
         <span class="change down">▼ 37円(0.80%)</span>
         <div class="bar"><span style="width:33%;"></span></div>
       </div>
       <div class="spot-card">
         <span class="metal-name">SILVER</span>
         <span class="metal-jp">銀</span>
-        <span class="price">178<small>円/g</small></span>
-        <span class="change up">▲ 1.9円(1.10%)</span>
+        <span class="price">178,000<small>円/kg(税込)</small></span>
+        <span class="tax-note">税抜 161,818円</span>
+        <span class="change up">▲ 1,900円(1.10%)</span>
         <div class="bar"><span style="width:58%;"></span></div>
       </div>
     </div>
-    <div class="spot-note">※ 表示価格はイメージです。実際の運用時は田中貴金属・楽天証券等のAPIまたは公式データを反映します。</div>
+    <div class="spot-note">※ 表示価格はイメージです(消費税率10%で計算)。実際の運用時は田中貴金属・楽天証券等のAPIまたは公式データを反映します。</div>
   </div>
 </section>
 
