@@ -372,7 +372,7 @@
 </header>
 
 <div class="ticker">
-  <div class="ticker-inner">
+  <div class="ticker-inner" id="ticker-inner">
     <span><b>GOLD</b>1g 14,820円 <span class="up">▲0.6%</span></span>
     <span><b>PLATINUM</b>1g 5,940円 <span class="down">▼0.2%</span></span>
     <span><b>PALLADIUM</b>1g 4,610円 <span class="down">▼0.8%</span></span>
@@ -404,9 +404,9 @@
       <div class="dial" id="dial">
         <div class="needle"></div>
         <div class="dial-readout">
-          <div class="price">¥14,820</div>
+          <div class="price" id="dial-price">¥14,820</div>
           <div class="unit">GOLD / 1g JPY</div>
-          <div class="delta">▲ 0.6% 本日</div>
+          <div class="delta" id="dial-delta">▲ 0.6% 本日</div>
         </div>
       </div>
     </div>
@@ -422,43 +422,60 @@
       </div>
       <p>金・プラチナ・パラジウム・銀の国内小売価格の目安です。相場は常に変動します。</p>
     </div>
-    <div class="spot-grid">
-      <div class="spot-card">
+    <div class="spot-grid" id="spot-grid">
+      <div class="spot-card" data-metal="gold">
         <span class="metal-name">GOLD</span>
         <span class="metal-jp">金</span>
-        <span class="price">14,820<small>円/g(税込)</small></span>
+        <span class="price"><span class="num">14,820</span><small>円/g(税込)</small></span>
         <span class="tax-note">税抜 13,473円</span>
         <span class="change up">▲ 88円(0.60%)</span>
         <div class="bar"><span style="width:72%;"></span></div>
       </div>
-      <div class="spot-card">
+      <div class="spot-card" data-metal="platinum">
         <span class="metal-name">PLATINUM</span>
         <span class="metal-jp">プラチナ</span>
-        <span class="price">5,940<small>円/g(税込)</small></span>
+        <span class="price"><span class="num">5,940</span><small>円/g(税込)</small></span>
         <span class="tax-note">税抜 5,400円</span>
         <span class="change down">▼ 12円(0.20%)</span>
         <div class="bar"><span style="width:41%;"></span></div>
       </div>
-      <div class="spot-card">
+      <div class="spot-card" data-metal="palladium">
         <span class="metal-name">PALLADIUM</span>
         <span class="metal-jp">パラジウム</span>
-        <span class="price">4,610<small>円/g(税込)</small></span>
+        <span class="price"><span class="num">4,610</span><small>円/g(税込)</small></span>
         <span class="tax-note">税抜 4,191円</span>
         <span class="change down">▼ 37円(0.80%)</span>
         <div class="bar"><span style="width:33%;"></span></div>
       </div>
-      <div class="spot-card">
+      <div class="spot-card" data-metal="silver">
         <span class="metal-name">SILVER</span>
         <span class="metal-jp">銀</span>
-        <span class="price">178,000<small>円/kg(税込)</small></span>
+        <span class="price"><span class="num">178,000</span><small>円/kg(税込)</small></span>
         <span class="tax-note">税抜 161,818円</span>
         <span class="change up">▲ 1,900円(1.10%)</span>
         <div class="bar"><span style="width:58%;"></span></div>
       </div>
     </div>
-    <div class="spot-note">※ 表示価格はイメージです(消費税率10%で計算)。実際の運用時は田中貴金属・楽天証券等のAPIまたは公式データを反映します。</div>
+    <div class="spot-note">※ 表示価格は税込参考値です(消費税率10%で計算)。取引の際は必ず各社公式サイトで最新価格をご確認ください。</div>
+    <div class="spot-note" id="spot-updated" style="margin-top:4px;">最終更新: 取得中…</div>
+    <div style="margin-top:28px;">
+      <a class="btn-ghost" href="#compare">この価格で証券口座を比較する →</a>
+    </div>
   </div>
 </section>
+
+<script type="application/json" id="spot-data">
+{
+  "updated_jst": "2026-08-25T19:00:00+09:00",
+  "usdjpy": 148.32,
+  "metals": {
+    "gold":      {"price_tax": 14820,  "price_notax": 13473,  "change_yen": 88,   "change_pct": 0.60},
+    "platinum":  {"price_tax": 5940,   "price_notax": 5400,   "change_yen": -12,  "change_pct": -0.20},
+    "palladium": {"price_tax": 4610,   "price_notax": 4191,   "change_yen": -37,  "change_pct": -0.80},
+    "silver":    {"price_tax": 178000, "price_notax": 161818, "change_yen": 1900, "change_pct": 1.10}
+  }
+}
+</script>
 
 <section id="guide">
   <div class="wrap">
@@ -573,7 +590,7 @@
         <span class="num">02 — COMPARE</span>
         <h2>証券会社・地金商 比較</h2>
       </div>
-      <p>手数料・取扱商品・積立の最低金額を中心に、実務目線で比較しています。</p>
+      <p>手数料・取扱商品・積立の最低金額を中心に、実務目線で比較しています。<br><span style="font-size:11.5px; color:rgba(183,188,195,0.6);">※ 本ページのリンクには広告(PR)を含みます。</span></p>
     </div>
     <div class="compare">
       <div class="compare-row head">
@@ -665,6 +682,79 @@
     t.style.transform = `translateX(-50%) rotate(${i*9}deg)`;
     dial.appendChild(t);
   }
+
+  // スポット価格の描画(#spot-data を唯一の情報源とする。
+  // このJSONブロックは .github/workflows/update-spot-price.yml が自動更新する)
+  (function(){
+    const dataEl = document.getElementById('spot-data');
+    if(!dataEl) return;
+    let data;
+    try { data = JSON.parse(dataEl.textContent); } catch(e){ return; }
+
+    const metalLabel = {gold:'GOLD', platinum:'PLATINUM', palladium:'PALLADIUM', silver:'SILVER'};
+    const metalUnit = {gold:'1g', platinum:'1g', palladium:'1g', silver:'1kg'};
+    const order = ['gold','platinum','palladium','silver'];
+    const fmt = n => Math.round(n).toLocaleString('ja-JP');
+    const arrow = pct => pct >= 0 ? '▲' : '▼';
+    const dir = pct => pct >= 0 ? 'up' : 'down';
+
+    // ティッカー
+    const tickerInner = document.getElementById('ticker-inner');
+    if(tickerInner){
+      const items = order.map(k=>{
+        const m = data.metals[k];
+        if(!m) return '';
+        return `<span><b>${metalLabel[k]}</b>${metalUnit[k]} ${fmt(m.price_tax)}円 <span class="${dir(m.change_pct)}">${arrow(m.change_pct)}${Math.abs(m.change_pct).toFixed(1)}%</span></span>`;
+      });
+      if(typeof data.usdjpy === 'number'){
+        items.push(`<span><b>USD/JPY</b>${data.usdjpy.toFixed(2)}</span>`);
+      }
+      tickerInner.innerHTML = items.concat(items).join('');
+    }
+
+    // ヒーローダイヤル(金を代表値として表示)
+    const g = data.metals.gold;
+    if(g){
+      const dp = document.getElementById('dial-price');
+      const dd = document.getElementById('dial-delta');
+      if(dp) dp.textContent = '¥' + fmt(g.price_tax);
+      if(dd) dd.textContent = `${arrow(g.change_pct)} ${Math.abs(g.change_pct).toFixed(1)}% 本日`;
+    }
+
+    // スポット価格カード
+    const maxAbsPct = Math.max(0.01, ...order.map(k => data.metals[k] ? Math.abs(data.metals[k].change_pct) : 0));
+    document.querySelectorAll('.spot-card').forEach(card=>{
+      const key = card.getAttribute('data-metal');
+      const m = data.metals[key];
+      if(!m) return;
+      const numEl = card.querySelector('.price .num');
+      const taxNoteEl = card.querySelector('.tax-note');
+      const changeEl = card.querySelector('.change');
+      const barEl = card.querySelector('.bar span');
+      if(numEl) numEl.textContent = fmt(m.price_tax);
+      if(taxNoteEl) taxNoteEl.textContent = '税抜 ' + fmt(m.price_notax) + '円';
+      if(changeEl){
+        changeEl.className = 'change ' + dir(m.change_pct);
+        changeEl.textContent = `${arrow(m.change_pct)} ${fmt(Math.abs(m.change_yen))}円(${Math.abs(m.change_pct).toFixed(2)}%)`;
+      }
+      if(barEl){
+        const width = Math.min(100, Math.round((Math.abs(m.change_pct) / maxAbsPct) * 100));
+        barEl.style.width = width + '%';
+      }
+    });
+
+    // 最終更新表示
+    const updatedEl = document.getElementById('spot-updated');
+    if(updatedEl && data.updated_jst){
+      try{
+        const d = new Date(data.updated_jst);
+        const jst = new Intl.DateTimeFormat('ja-JP', {timeZone:'Asia/Tokyo', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'}).format(d);
+        updatedEl.textContent = `最終更新: ${jst}(JST)/ 自動取得`;
+      }catch(e){
+        updatedEl.textContent = '';
+      }
+    }
+  })();
 </script>
 
 </body>

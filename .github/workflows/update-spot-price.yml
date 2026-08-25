@@ -1,0 +1,39 @@
+name: Update spot price
+
+on:
+  schedule:
+    # 22:00 UTC = 07:00 JST 毎日
+    - cron: '0 22 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-spot-price:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Update spot price data
+        env:
+          METALS_API_KEY: ${{ secrets.METALS_API_KEY }}
+        run: python3 scripts/update_spot_price.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "goldcompass-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update spot price [automated]"
+            git push
+          fi
