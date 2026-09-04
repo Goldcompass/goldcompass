@@ -23,7 +23,7 @@ jobs:
 
       - name: Update spot price data
         env:
-          METALS_API_KEY: ${{ secrets.METALS_API_KEY }}
+          METALPRICEAPI_KEY: ${{ secrets.METALPRICEAPI_KEY }}
         run: python3 scripts/update_spot_price.py
 
       - name: Commit and push if changed

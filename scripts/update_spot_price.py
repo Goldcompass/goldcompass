@@ -3,15 +3,15 @@
 Gold Compass - スポット価格自動更新スクリプト
 
 やること:
-  1. metals-api.com (無料枠あり) から金・プラチナ・パラジウム・銀のJPY建てスポット価格と
-     USD/JPYレートを取得する
+  1. metalpriceapi.com (無料枠あり、月100リクエスト) から金・プラチナ・パラジウム・銀の
+     JPY建てスポット価格とUSD/JPYレートを取得する
   2. index.html 内の <script type="application/json" id="spot-data"> ブロックを
      最新の値に書き換える(前回値との差分から前日比を計算する)
   3. 取得に失敗した場合は index.html を一切変更せずに終了する
      (自動化がサイトを壊さないことを最優先する)
 
 必要な環境変数:
-  METALS_API_KEY - metals-api.com (https://metals-api.com/) の無料APIキー
+  METALPRICEAPI_KEY - metalpriceapi.com (https://metalpriceapi.com/) の無料APIキー
 
 このスクリプトは標準ライブラリのみで動作します(pip installは不要)。
 """
@@ -29,7 +29,7 @@ INDEX_HTML = os.path.join(os.path.dirname(__file__), "..", "index.html")
 TROY_OUNCE_G = 31.1034768
 TAX_RATE = 1.10
 
-# metals-api.com のシンボル -> サイト内部キー
+# metalpriceapi.com のシンボル -> サイト内部キー
 SYMBOL_MAP = {
     "XAU": "gold",
     "XPT": "platinum",
@@ -41,11 +41,11 @@ UNIT_G = {"gold": 1, "platinum": 1, "palladium": 1, "silver": 1000}
 
 
 def fetch_rates(api_key: str) -> dict:
-    """metals-api.com から JPY建てレートを取得する。失敗時は例外を投げる。"""
-    symbols = ",".join(list(SYMBOL_MAP.keys()) + ["USD"])
+    """metalpriceapi.com から JPY建てレートを取得する。失敗時は例外を投げる。"""
+    currencies = ",".join(list(SYMBOL_MAP.keys()) + ["USD"])
     url = (
-        "https://api.metals-api.com/v1/latest"
-        f"?access_key={api_key}&base=JPY&symbols={symbols}"
+        "https://api.metalpriceapi.com/v1/latest"
+        f"?api_key={api_key}&base=JPY&currencies={currencies}"
     )
     req = urllib.request.Request(url, headers={"User-Agent": "goldcompass-bot/1.0"})
     with urllib.request.urlopen(req, timeout=20) as resp:
@@ -148,9 +148,9 @@ def write_new_data(html: str, new_data: dict) -> str:
 
 
 def main() -> int:
-    api_key = os.environ.get("METALS_API_KEY")
+    api_key = os.environ.get("METALPRICEAPI_KEY")
     if not api_key:
-        print("METALS_API_KEY is not set - skipping update (no changes made).")
+        print("METALPRICEAPI_KEY is not set - skipping update (no changes made).")
         return 0
 
     if not os.path.exists(INDEX_HTML):
